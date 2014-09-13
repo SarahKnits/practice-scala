@@ -40,7 +40,8 @@ object CollectionExercise01 {
     var t1 = "our language is impossible to understand"
     var t2 = "there are twenty six factorial possibilities"
     var t3 = "so it is okay if you want to just give up"
-
+    mapping = mapping ++ s1.zip(t1) ++ s2.zip(t2) ++ s3.zip(t3)
+    lines.map(line => line.map(character => mapping(character)))
   }
 }
 /*========================================================== */
