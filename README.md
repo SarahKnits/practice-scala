@@ -23,10 +23,10 @@ start coding.**
 Here's what to do:
 
 - Get things set up
-  - [ ] Make your team on GitHub.
+  - [x] Make your team on GitHub.
      1. Go to the [team sign-up page](https://github.com/hmc-cs111-fall2014/practice-scala/wiki/Team-sign-ups)
      2. Add your and your partner's names to the table. Erase your names from below the table.
-  - [ ] Get your team's copy of the assignment.
+  - [x] Get your team's copy of the assignment.
      1. *One* of the partners should fork this assignment. This will be the fork to which you both contribute and the fork from which you issue the pull request. (But, of course, you may each have your own clones.)
      2. The partner who forked should make sure that the other partner has access to the fork. 
         1. On the fork's page, click  Settings (on the right-hand side).
@@ -35,13 +35,13 @@ Here's what to do:
      3. Both partners should be able to push to and pull from the fork.
 
 - Work on the assignment
-  - [ ] Read the lab instructions, hints, and tips, below.
+  - [x] Read the lab instructions, hints, and tips, below.
   - Do the following labs (it's probably best to do them in the following order)
-     - [ ] Basic lab 1, `HelloWorldExercise`
-     - [ ] Basic lab 1, `OOExercise`
-     - [ ] Basic lab 2, `ListManipulationExercise01`
-     - [ ] Basic lab 2, `ListManipulationExercise02`
-     - [ ] Basic lab 2, `CollectionExercise01`
+     - [x] Basic lab 1, `HelloWorldExercise`
+     - [x] Basic lab 1, `OOExercise`
+     - [x] Basic lab 2, `ListManipulationExercise01`
+     - [x] Basic lab 2, `ListManipulationExercise02`
+     - [x] Basic lab 2, `CollectionExercise01`
      - [ ] Basic lab 3, `PatternMatchingExercise`
      - [ ] Basic lab 3, `RecursionPatternMatchingExercise`
      - [ ] Basic lab 3, `OptionExercise`
