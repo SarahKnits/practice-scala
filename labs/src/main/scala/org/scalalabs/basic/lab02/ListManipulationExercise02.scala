@@ -10,25 +10,22 @@ object ListManipulationExercise02 {
    * Find the maximum element in a list, e.g. maxElementInList(List(1,9,3,5)) == 9
    * As usual, various ways exist: pattern matching, folding, ...
    */
-  def maxElementInList(l: List[Int]): Int = {
-    error("fix me")
-  }
+  def maxElementInList(l: List[Int]): Int = l.foldLeft(0) {(x:Int, y:Int) => if (x>y) x else y}
 
   /**
-   * Calculate the sum of the equally position elements
+   * Calculate the sum of the equally positioned elements
    * of the two list
    */
   def sumOfTwo(l1: List[Int], l2: List[Int]): List[Int] = {
-    error("fix me")
+    if (l1 == List.empty) l2 else if (l2 == List.empty) l1 else
+    l1.zip(l2).map{case (x1, x2) => x1 + x2}
   }
 
   /**
    *  For this exercise preferably make use of the sumOfTwo
    * method above
    */
-  def sumOfMany(l: List[Int]*): List[Int] = {
-    error("fix me")
-  }
+  def sumOfMany(l: List[Int]*): List[Int] = l.fold(List()) {(x:List[Int], y:List[Int]) => sumOfTwo(x,y)}
 
   case class Person(age: Int, firstName: String, lastName: String)
 
