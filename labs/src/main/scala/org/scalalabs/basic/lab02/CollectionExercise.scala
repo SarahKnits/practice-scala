@@ -33,7 +33,14 @@ object CollectionExercise01 {
    *
    */
   def googleCodeJamGooglerese(lines: String*): Seq[String] = {
-    error("fix me")
+    var mapping = Map[Char, Char]('q' -> 'z', 'e' -> 'o', 'y' -> 'a')
+    var s1 = "ejp mysljylc kd kxveddknmc re jsicpdrysi"
+    var s2 = "rbcpc ypc rtcsra dkh wyfrepkym veddknkmkrkcd"
+    var s3 = "de kr kd eoya kw aej tysr re ujdr lkgc jv"
+    var t1 = "our language is impossible to understand"
+    var t2 = "there are twenty six factorial possibilities"
+    var t3 = "so it is okay if you want to just give up"
+
   }
 }
 /*========================================================== */
