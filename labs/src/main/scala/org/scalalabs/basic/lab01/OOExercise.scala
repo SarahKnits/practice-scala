@@ -65,13 +65,29 @@ class Euro(val euro:Int, val cents:Int = 0) extends Currency with Ordered[Euro] 
   }
 }
 
+// DOLLAR
+class Dollar(val dollar:Int, val cents:Int = 0) extends Currency {
+  val inCents = (dollar * 100) + cents
+  val symbol = "DOL"
+}
+
+// STATIC EURO
 object Euro {
   def fromCents(cents:Int):Euro = {
     new Euro(cents/100, cents % 100)
+  }
+
+  implicit class EuroWithTimes(x: Int) {
+    def *(euro:Euro): Euro = {
+      Euro.fromCents(euro.inCents * x)
+    }
+  }
+
+  implicit def Equals(dollar: Dollar)(implicit conv: CurrencyConverter) = {
+     Euro.fromCents(conv.toEuroCents(dollar.inCents))
   }
 }
 
 abstract class Currency {
   val symbol: String
 }
-
