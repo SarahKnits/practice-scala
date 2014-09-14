@@ -42,7 +42,7 @@ Here's what to do:
      - [x] Basic lab 2, `ListManipulationExercise01`
      - [x] Basic lab 2, `ListManipulationExercise02`
      - [x] Basic lab 2, `CollectionExercise01`
-     - [ ] Basic lab 3, `PatternMatchingExercise`
+     - [x] Basic lab 3, `PatternMatchingExercise`
      - [ ] Basic lab 3, `RecursionPatternMatchingExercise`
      - [ ] Basic lab 3, `OptionExercise`
   - [ ] Review the solutions included with the lab
