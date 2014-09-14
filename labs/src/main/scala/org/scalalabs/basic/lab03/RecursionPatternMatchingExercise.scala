@@ -29,15 +29,26 @@ object RecursionPatternMatchingExercise {
    * checkValuesIncrease(Seq(1,2,2)) == false
    */
   def checkValuesIncrease(seq: Seq[Int]): Boolean = {
-    error("fix me")
+    seq match {
+      case x::y::tail => if (x < y) checkValuesIncrease(seq.slice(1,seq.size)) else false
+      case _ => true
+    }
   }
   
   /**
    * Group Consecutive values
    * List(1,1,2,3,1,1) -> List(1,1), List(2), List(3), List(1,1)
    */
-  def groupConsecutive[T](in: List[T]): List[List[T]] = {
-    error("fix me")
+  def groupConsecutive[T](in: List[T]): List[List[T]] = in match {
+    case x::y::tail => {
+      if (x==y) {
+        ((groupConsecutive(in.slice(1,in.length)))(0) :+ x) :: groupConsecutive(in.slice(1,in.length)).tail
+      } else {
+      List(x) :: groupConsecutive(in.slice(1,in.length))
+      }
+    }
+    case x::tail => List(List(x))
+    case _ => List(List.empty)
   }
 
   /**
@@ -45,7 +56,15 @@ object RecursionPatternMatchingExercise {
    * List(1,1,2,3,1,1) -> List(1,1,1,1), List(2), List(3)
    */
   def groupEquals[T](in: List[T]): List[List[T]] = {
-    error("fix me")
+    in match {
+      case x::tail => addToProperList(groupEquals(in.tail), x)
+      case _ => List(List.empty)
+    }
+  }
+
+  def addToProperList[T](in: List[List[T]], x:T) : List[List[T]] = {
+    var newList = in.map(l => if (l.length > 0 && l(0)==x) l :+ x else l)
+    if (newList == List(List())) List(List(x)) else if (newList == in) newList :+ List(x) else newList
   }
 
   /**
@@ -53,7 +72,10 @@ object RecursionPatternMatchingExercise {
    * List(1,1,2,3,1,1) -> List(1,2,3)
    */
   def compress[T](in: List[T]): List[T] = {
-    error("fix me")
+    in match {
+      case x::tail => if (compress(in.tail).count(i => i == x) == 0) x :: compress(in.tail) else compress(in.tail)
+      case _ => List()
+    }
   }
   
   /**
@@ -61,7 +83,15 @@ object RecursionPatternMatchingExercise {
    * List(1,1,2,3,1,1) -> List((4,1),(1,2),(1,3))
    */
   def amountEqualMembers[T](in: List[T]): List[(Int, T)] = {
-    error("fix me")
+    in match {
+      case x::tail => addWithProperCounting(amountEqualMembers(in.tail), x)
+      case _ => List()
+    }
+  }
+
+  def addWithProperCounting[T](in: List[(Int, T)], x:T) : List[List[T]] = {
+    var newList = in.map(l => if (l.length > 0 && l(0)==x) l :+ x else l)
+    if (newList == List(List())) List(List(x)) else if (newList == in) newList :+ List(x) else newList
   }
   
   /**
@@ -69,7 +99,10 @@ object RecursionPatternMatchingExercise {
    * List(List(1,2,3), List('A, 'B, 'C), List('a, 'b, 'c)) -> List(List(1, 'A, 'a), List(2, 'B, 'b), List(3, 'C, 'c))
    */
   def zipMultiple(in: List[List[_]]): List[List[_]] = {
-    error("fix me")
+    in match {
+      case (x::tail, y::tail, z::tail) =>
+      case _ => List(List())
+    }
   }
 
   /**
