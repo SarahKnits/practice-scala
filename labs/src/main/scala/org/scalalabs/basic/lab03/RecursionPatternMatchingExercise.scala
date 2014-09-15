@@ -99,11 +99,19 @@ object RecursionPatternMatchingExercise {
    * List(List(1,2,3), List('A, 'B, 'C), List('a, 'b, 'c)) -> List(List(1, 'A, 'a), List(2, 'B, 'b), List(3, 'C, 'c))
    */
   def zipMultiple(in: List[List[_]]): List[List[_]] = {
-//    in match {
-//      case (x::tail, y::tail, z::tail) =>
-//      case _ => List(List())
-//    }
-    error("fix me")
+    in match {
+      case l::tail => helperMaster(l, zipMultiple(in.tail))
+      case _ => List(List())
+    }
+  }
+
+  def helperMaster(frank: List[_], jerry: List[List[_]]): List[List[_]] = {
+    var i = 0
+    var newJerry = List[List[_]]()
+    for(i <- 1 to frank.length) {
+      newJerry = newJerry :+ (frank(i-1) :: jerry(i-1))
+    }
+    newJerry
   }
 
   /**
