@@ -89,9 +89,9 @@ object RecursionPatternMatchingExercise {
     }
   }
 
-  def addWithProperCounting[T](in: List[(Int, T)], x:T) : List[List[T]] = {
-    var newList = in.map(l => if (l.length > 0 && l(0)==x) l :+ x else l)
-    if (newList == List(List())) List(List(x)) else if (newList == in) newList :+ List(x) else newList
+  def addWithProperCounting[T](in: List[(Int, T)], x:T) : List[(Int, T)] = {
+    var elem = in.find(t => t._2 == x)
+    if (elem == None) Tuple2(1,x) :: in else Tuple2(elem.get._1 + 1, x) :: in.filterNot(t => t == elem.get)
   }
   
   /**
@@ -99,10 +99,11 @@ object RecursionPatternMatchingExercise {
    * List(List(1,2,3), List('A, 'B, 'C), List('a, 'b, 'c)) -> List(List(1, 'A, 'a), List(2, 'B, 'b), List(3, 'C, 'c))
    */
   def zipMultiple(in: List[List[_]]): List[List[_]] = {
-    in match {
-      case (x::tail, y::tail, z::tail) =>
-      case _ => List(List())
-    }
+//    in match {
+//      case (x::tail, y::tail, z::tail) =>
+//      case _ => List(List())
+//    }
+    error("fix me")
   }
 
   /**
