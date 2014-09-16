@@ -40,13 +40,10 @@ object RecursionPatternMatchingExercise {
    * List(1,1,2,3,1,1) -> List(1,1), List(2), List(3), List(1,1)
    */
   def groupConsecutive[T](in: List[T]): List[List[T]] = in match {
-    case x::y::tail => {
-      if (x==y) {
-        ((groupConsecutive(in.slice(1,in.length)))(0) :+ x) :: groupConsecutive(in.slice(1,in.length)).tail
-      } else {
+    case x::y::tail if x==y =>
+      (groupConsecutive(in.slice(1,in.length))(0) :+ x) :: groupConsecutive(in.slice(1,in.length)).tail
+    case x::y::tail =>
       List(x) :: groupConsecutive(in.slice(1,in.length))
-      }
-    }
     case x::tail => List(List(x))
     case _ => List(List.empty)
   }
@@ -57,15 +54,39 @@ object RecursionPatternMatchingExercise {
    */
   def groupEquals[T](in: List[T]): List[List[T]] = {
     in match {
-      case x::tail => addToProperList(groupEquals(in.tail), x)
+      case x::tail => addToProperListWrapper(groupEquals(in.tail), x)
       case _ => List(List.empty)
     }
   }
 
+  /*
+   * Helper function for groupEquals
+   * Adds the current elements to the correct existing list or creates a new one
+   */
   def addToProperList[T](in: List[List[T]], x:T) : List[List[T]] = {
-    var newList = in.map(l => if (l.length > 0 && l(0)==x) l :+ x else l)
-    if (newList == List(List())) List(List(x)) else if (newList == in) newList :+ List(x) else newList
+    in match {
+      case y::tail if y.length > 0 && (y(0) == x) => (x :: y) :: addToProperList(tail,x)
+      case y::tail => y :: addToProperList(tail,x)
+      case _ => List[List[T]]()
+    }
   }
+
+  /**
+   * Wrapper for addToProperList
+   * @param in List of lists to add x to
+   * @param x element to be added
+   * @tparam T Unknown type of awesomeness
+   * @return in with x added in proper spot
+   */
+  def addToProperListWrapper[T](in: List[List[T]], x:T) : List[List[T]] = {
+    val newList = addToProperList(in, x)
+    newList match {
+      case List(List()) => List(List(x))
+      case y if y == in => y :+ List(x)
+      case _ => newList
+    }
+  }
+
 
   /**
    * Compress values
@@ -89,6 +110,14 @@ object RecursionPatternMatchingExercise {
     }
   }
 
+  /**
+   * Helper method for amountEqualMembers
+   * Increases the count for the current x or adds it
+   * @param in Current list of counts and items
+   * @param x Current item to be added
+   * @tparam T Unknown type
+   * @return in with count increased for x
+   */
   def addWithProperCounting[T](in: List[(Int, T)], x:T) : List[(Int, T)] = {
     var elem = in.find(t => t._2 == x)
     elem match {
@@ -109,17 +138,31 @@ object RecursionPatternMatchingExercise {
     }
   }
 
+  /**
+   * Helper method for zipMultiple
+   * Adds elements from curList to existing totalList
+   * @param curList List to add elements from
+   * @param totalList Current product of recursive zipping
+   * @return totalList with elements from curList added
+   */
   def addToList(curList: List[_], totalList: List[List[_]]): List[List[_]] = {
-    var i = 0
-    var returnList = List[List[_]]()
-    for(i <- 0 to totalList.length-1) {returnList = returnList :+ (curList(i) :: totalList(i))}
-    returnList
+    totalList match {
+      case x::tail => (curList(0) :: x) :: addToList(curList.tail, tail)
+      case _ => List[List[_]]()
+    }
   }
 
+  /**
+   * Helper method for zipMultiple
+   * Initializes x lists with the elements of l, where x is the length of l
+   * @param l List to initialize
+   * @return A list of lists
+   */
   def initLists(l:List[_]): List[List[_]] = {
-    var totalList = List[List[_]]()
-    l.foreach(x => totalList = totalList :+ List(x))
-    totalList
+    l match {
+      case x::tail => List(x) :: initLists(tail)
+      case _ => List[List[_]]()
+    }
   }
 
   /**
@@ -130,38 +173,64 @@ object RecursionPatternMatchingExercise {
     zipMultipleWithDifferentSizeHelper(in,minLength(in,-1))
   }
 
+  /**
+   * Helper method for zipMultipleWithDifferentSize
+   * Used to allow the minimum length of original lists to be used
+   * @param in List of lists
+   * @param min minimum length of existing list
+   * @return List of lists
+   */
   def zipMultipleWithDifferentSizeHelper(in: List[List[_]], min:Int): List[List[_]] = {
     in match {
-    case l::m::tail => addToListLen(l, zipMultiple(in.tail),min)
-    case l::tail => initListLen(l,min)
-    case _ => List[List[_]]()
+      case l::m::tail => addToListLen(l, zipMultiple(in.tail),min)
+      case l::tail => initListLen(l,min)
+      case _ => List[List[_]]()
   }
   }
 
+  /**
+   * Helper method for zipMultipleWithDifferentSize
+   * Recursively calculates minimum length of a list from in
+   * @param in List of lists
+   * @param curMin Current minimum length, or -1 if starting
+   * @return minimum length of a list
+   */
   def minLength(in: List[List[_]], curMin:Int): Int = {
     in match {
-      case l::tail =>
-        if (curMin == -1) minLength(in.tail, l.length)
-        else if (curMin > l.length) minLength(in.tail, l.length)
-        else minLength(in.tail, curMin)
+      case l::tail if curMin == -1 => minLength(in.tail, l.length)
+      case l::tail if curMin > l.length => minLength(in.tail, l.length)
+      case l::tail => minLength(in.tail, curMin)
       case _ => curMin
     }
   }
 
+  /**
+   * Helper method for zipMultipleWithDifferentSize
+   * Initializes list of lists with first min elements of l
+   * @param l List whose elements will make up new list
+   * @param min Number of elements to include
+   * @return List of Lists
+   */
   def initListLen(l:List[_], min:Int): List[List[_]] = {
-    var totalList = List[List[_]]()
-    var i = 0
-    for(i <- 0 to min-1) {
-      totalList = totalList :+ List(l(i))
+    l match {
+      case x::tail if min > 0 => List(x) :: initListLen(tail, min-1)
+      case _ => List[List[_]]()
     }
-    totalList
   }
 
+  /**
+   * Helper method for zipMultipleWithDifferentSize
+   * Adds first min elements of curList to totalList
+   * @param curList List to add elements from
+   * @param totalList List of lists returned by recursive call
+   * @param min Number of elements to add
+   * @return totalList with elements from curList added
+   */
   def addToListLen(curList: List[_], totalList: List[List[_]], min:Int): List[List[_]] = {
-    var i = 0
-    var returnList = List[List[_]]()
-    for(i <- 0 to min-1) {returnList = returnList :+ (curList(i) :: totalList(i))}
-    returnList
+    totalList match {
+      case x::tail if min > 0 => (curList(0) :: x) :: addToListLen(curList.tail, tail, min-1)
+      case _ => List[List[_]]()
+    }
   }
 
 }

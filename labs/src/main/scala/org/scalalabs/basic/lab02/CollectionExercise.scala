@@ -32,6 +32,11 @@ object CollectionExercise01 {
    * Case 3: so it is okay if you want to just give up
    *
    */
+
+  /*
+   * Decrypts a given string from Googlerese to original language
+   * Takes in a number of strings, returns a sequence of strings
+   */
   def googleCodeJamGooglerese(lines: String*): Seq[String] = {
     var mapping = Map[Char, Char]('q' -> 'z', 'e' -> 'o', 'y' -> 'a')
     var s1 = "ejp mysljylc kd kxveddknmc re jsicpdrysi"

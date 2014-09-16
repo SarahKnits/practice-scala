@@ -22,8 +22,8 @@ object ListManipulationExercise02 {
   }
 
   /**
-   *  For this exercise preferably make use of the sumOfTwo
-   * method above
+   * Calculate the sum of the equally positioned elements
+   * of an arbitrary number of lists
    */
   def sumOfMany(l: List[Int]*): List[Int] = l.fold(List()) {(x:List[Int], y:List[Int]) => sumOfTwo(x,y)}
 

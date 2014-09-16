@@ -40,6 +40,12 @@ import scala.language.implicitConversions
  *   of type [[org.scalalabs.basic.lab01.CurrencyConverter]]
  * - Use the implicit CurrencyConverter to do the conversion. 
  */
+
+
+/*
+ * Class defining a Euro
+ * params: euro (Int) and cents (Int)
+ */
 class Euro(val euro:Int, val cents:Int = 0) extends Currency with Ordered[Euro] {
   val inCents = (euro * 100) + cents
   val symbol = "EUR"
@@ -71,18 +77,20 @@ class Dollar(val dollar:Int, val cents:Int = 0) extends Currency {
   val symbol = "DOL"
 }
 
-// STATIC EURO
+/*
+ * Euro factory object
+ */
 object Euro {
   def fromCents(cents:Int):Euro = {
     new Euro(cents/100, cents % 100)
   }
-
+  // Implicit conversion
   implicit class EuroWithTimes(x: Int) {
     def *(euro:Euro): Euro = {
       Euro.fromCents(euro.inCents * x)
     }
   }
-
+  // Implicit conversion with Dollar
   implicit def Equals(dollar: Dollar)(implicit conv: CurrencyConverter) = {
      Euro.fromCents(conv.toEuroCents(dollar.inCents))
   }
