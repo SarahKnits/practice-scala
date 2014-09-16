@@ -45,12 +45,12 @@ Here's what to do:
      - [x] Basic lab 3, `PatternMatchingExercise`
      - [x] Basic lab 3, `RecursionPatternMatchingExercise`
      - [x] Basic lab 3, `OptionExercise`
-  - [ ] Review the solutions included with the lab
-  - [ ] Review Ben's solutions (some of which are different)
-  - [ ] Write about Scala in `scala-thoughts.md`
+  - [x] Review the solutions included with the lab
+  - [x] Review Ben's solutions (some of which are different)
+  - [x] Write about Scala in `scala-thoughts.md`
 
 - Submit the assignment 
-  - [ ] Submit your work (by issuing a pull request).
+  - [x] Submit your work (by issuing a pull request).
   - [ ] Review and comment on other teams' code. 
 
 ## Lab instructions, hints, and tips
