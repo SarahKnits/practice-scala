@@ -91,7 +91,10 @@ object RecursionPatternMatchingExercise {
 
   def addWithProperCounting[T](in: List[(Int, T)], x:T) : List[(Int, T)] = {
     var elem = in.find(t => t._2 == x)
-    if (elem == None) Tuple2(1,x) :: in else Tuple2(elem.get._1 + 1, x) :: in.filterNot(t => t == elem.get)
+    elem match {
+      case None => Tuple2(1,x) :: in
+      case _ => Tuple2(elem.get._1 + 1, x) :: in.filterNot(t => t == elem.get)
+    }
   }
   
   /**
@@ -100,18 +103,23 @@ object RecursionPatternMatchingExercise {
    */
   def zipMultiple(in: List[List[_]]): List[List[_]] = {
     in match {
-      case l::tail => helperMaster(l, zipMultiple(in.tail))
-      case _ => List(List())
+      case l::m::tail => addToList(l, zipMultiple(in.tail))
+      case l::tail => initLists(l)
+      case _ => List[List[_]]()
     }
   }
 
-  def helperMaster(frank: List[_], jerry: List[List[_]]): List[List[_]] = {
+  def addToList(curList: List[_], totalList: List[List[_]]): List[List[_]] = {
     var i = 0
-    var newJerry = List[List[_]]()
-    for(i <- 1 to frank.length) {
-      newJerry = newJerry :+ (frank(i-1) :: jerry(i-1))
-    }
-    newJerry
+    var returnList = List[List[_]]()
+    for(i <- 0 to totalList.length-1) {returnList = returnList :+ (curList(i) :: totalList(i))}
+    returnList
+  }
+
+  def initLists(l:List[_]): List[List[_]] = {
+    var totalList = List[List[_]]()
+    l.foreach(x => totalList = totalList :+ List(x))
+    totalList
   }
 
   /**
@@ -119,7 +127,41 @@ object RecursionPatternMatchingExercise {
    * List(List(1), List('A, 'B, 'C), List('a, 'b)) -> List(List(1, 'A, 'a))
    */
   def zipMultipleWithDifferentSize(in: List[List[_]]): List[List[_]] = {
-    error("fix me")
+    zipMultipleWithDifferentSizeHelper(in,minLength(in,-1))
+  }
+
+  def zipMultipleWithDifferentSizeHelper(in: List[List[_]], min:Int): List[List[_]] = {
+    in match {
+    case l::m::tail => addToListLen(l, zipMultiple(in.tail),min)
+    case l::tail => initListLen(l,min)
+    case _ => List[List[_]]()
+  }
+  }
+
+  def minLength(in: List[List[_]], curMin:Int): Int = {
+    in match {
+      case l::tail =>
+        if (curMin == -1) minLength(in.tail, l.length)
+        else if (curMin > l.length) minLength(in.tail, l.length)
+        else minLength(in.tail, curMin)
+      case _ => curMin
+    }
+  }
+
+  def initListLen(l:List[_], min:Int): List[List[_]] = {
+    var totalList = List[List[_]]()
+    var i = 0
+    for(i <- 0 to min-1) {
+      totalList = totalList :+ List(l(i))
+    }
+    totalList
+  }
+
+  def addToListLen(curList: List[_], totalList: List[List[_]], min:Int): List[List[_]] = {
+    var i = 0
+    var returnList = List[List[_]]()
+    for(i <- 0 to min-1) {returnList = returnList :+ (curList(i) :: totalList(i))}
+    returnList
   }
 
 }
